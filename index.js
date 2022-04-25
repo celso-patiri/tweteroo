@@ -1,33 +1,28 @@
-import express from "express";
 import cors from "cors";
-import multer from "multer";
-
-const upload = multer();
+import express from "express";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(upload.array());
 
 const users = [];
 const tweets = [];
 
 app.post("/sign-up", (req, res) => {
-  const { username, avatar } = req.body;
+  const data = req.body;
 
-  if (username && avatar) {
-    users.push({ username, avatar });
+  if (data.username && data.avatar) {
+    users.push(data);
     res.status(200).send("OK");
   } else {
-    res.status(400).send("Invalid Input");
+    res.status(400).send(`Bad request`);
   }
 });
-
 app.post("/tweets", (req, res) => {
-  const { username, tweet } = req.body;
+  const data = req.body;
 
-  if (username && tweet) {
-    tweets.push({ username, tweet });
+  if (data.username && data.tweet) {
+    tweets.push(data);
     res.status(200).send("OK");
   } else {
     res.status(400).send("Bad request");
